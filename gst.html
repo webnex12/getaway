@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Luxury Chalet Booking</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a5f7a;
+      --primary-dark: #144d63;
+      --secondary: #ff7e67;
+      --accent: #57cc99;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --light-gray: #e9ecef;
+      --shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+      --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.12);
+      --radius: 12px;
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--dark);
+      background-color: var(--light);
+      line-height: 1.6;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-decoration: none;
+      color: white;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nav-link:hover {
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      margin-bottom: 2rem;
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .breadcrumb a:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    /* Image Gallery */
+    .gallery-section {
+      margin-bottom: 3rem;
+    }
+
+    .main-image-container {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      margin-bottom: 1rem;
+      height: 700px;
+    }
+
+    .main-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .gallery-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1rem;
+      transform: translateY(-50%);
+    }
+
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      font-size: 1.2rem;
+      color: var(--dark);
+    }
+
+    .nav-btn:hover {
+      background: white;
+      transform: scale(1.1);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .thumbnail-container {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding: 10px 0;
+    }
+
+    .thumbnail {
+      width: 100px;
+      height: 70px;
+      border-radius: 8px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: var(--transition);
+      opacity: 0.7;
+      border: 2px solid transparent;
+    }
+
+    .thumbnail:hover, .thumbnail.active {
+      opacity: 1;
+      transform: translateY(-3px);
+      border-color: var(--secondary);
+    }
+
+    /* Chalet Details */
+    .details-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 992px) {
+      .details-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .chalet-info {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .chalet-header {
+      margin-bottom: 1.5rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .chalet-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.5rem;
+      color: var(--primary-dark);
+      margin-bottom: 0.5rem;
+    }
+
+    .chalet-location {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+
+    .rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      color: #ffc107;
+      font-weight: 600;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.5rem 0;
+    }
+
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0.8rem;
+      background: var(--light-gray);
+      border-radius: 8px;
+    }
+
+    .feature i {
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+      margin: 1.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--light-gray);
+    }
+
+    .description-list, .rules-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .description-list li, .rules-list li {
+      padding: 0.5rem 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .description-list li:before, .rules-list li:before {
+      content: "✓";
+      color: var(--accent);
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .rules-list li:before {
+      content: "•";
+      color: var(--secondary);
+    }
+
+    /* Booking Card */
+    .booking-card {
+      background: white;
+      border-radius: var(--radius);
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 100px;
+      height: fit-content;
+    }
+
+    .price-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .price {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+    }
+
+    .per-night {
+      color: var(--gray);
+      font-size: 1rem;
+    }
+
+    .book-btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--secondary), #ff5a4a);
+      color: white;
+      border: none;
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin: 1.5rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-shadow: 0 6px 20px rgba(255, 126, 103, 0.3);
+    }
+
+    .book-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(255, 126, 103, 0.4);
+      background: linear-gradient(135deg, #ff5a4a, var(--secondary));
+    }
+
+    .whatsapp-btn {
+      display: block;
+      width: 100%;
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 1.2rem;
+      border-radius: var(--radius);
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-decoration: none;
+      margin-bottom: 1rem;
+    }
+
+    .whatsapp-btn:hover {
+      background: #128C7E;
+      transform: translateY(-3px);
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .back-link:hover {
+      color: var(--secondary);
+      gap: 12px;
+    }
+
+    /* Amenities Tags */
+    .amenities-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 1.5rem 0;
+    }
+
+    .amenity-tag {
+      background: linear-gradient(135deg, var(--accent), #38b2ac);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* Footer */
+    .footer {
+      background: var(--dark);
+      color: white;
+      padding: 3rem 2rem 1.5rem;
+      margin-top: 4rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-section h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      color: var(--light);
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    .footer-section h3:after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+    }
+
+    .footer-links {
+      list-style: none;
+    }
+
+    .footer-links li {
+      margin-bottom: 0.8rem;
+    }
+
+    .footer-links a {
+      color: rgba(255, 255, 255, 0.8);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+      transform: translateX(5px);
+    }
+
+    .copyright {
+      text-align: center;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-container {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      .chalet-title {
+        font-size: 2rem;
+      }
+      
+      .main-image-container {
+        height: 350px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Image counter */
+    .image-counter {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Loading animation */
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+      font-size: 1.2rem;
+      color: var(--gray);
+    }
+
+    .loading:after {
+      content: '';
+      width: 40px;
+      height: 40px;
+      border: 4px solid var(--light-gray);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-left: 15px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <a href="index.html" class="logo">
+        <i class="fas fa-mountain"></i>
+        <span>Getaway Lb</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">
+          <i class="fas fa-search"></i> Browse Chalets
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-heart"></i> Favorites
+        </a>
+        <a href="#" class="nav-link">
+          <i class="fas fa-user"></i> Account
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb"> 
+      <a href="index.html">Chalets</a> &gt; 
+      <span id="breadcrumb-chalet">Chalet Details</span>
+    </div>
+
+    <div id="chalet-details">
+      <!-- Content will be populated by JavaScript -->
+      <div class="loading">Loading chalet details...</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Mountain Retreats</h3>
+        <p>Discover the finest selection of luxury chalets and mountain retreats across Lebanon. Book your perfect getaway today.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul class="footer-links">
+          <li><a href="index.html"><i class="fas fa-chevron-right"></i> All Chalets</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Special Offers</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> How to Book</a></li>
+          <li><a href="#"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <ul class="footer-links">
+          <li><a href="https://wa.me/96181833120"><i class="fas fa-phone"></i> +961 81 833 120</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> info@getawaylb.com</a></li>
+          <li><a href="#"><i class="fas fa-map-marker-alt"></i> Lebanon</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <ul class="footer-links">
+          <li><a href="https://www.facebook.com/share/1CMD7pswLs/"><i class="fab fa-facebook"></i> Facebook</a></li>
+          <li><a href="https://www.instagram.com/getaway.lb12?igsh=MXh6bm9oYXNiZHV3bw=="><i class="fab fa-instagram"></i> Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@getaway.lb?_t=ZS-8uVdblTDVDN&_r=1"><i class="fab fa-tiktok"></i> TikTok</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      &copy; 2026 Getaway.lb. All rights reserved.
+    </div>
+  </footer>
+  <script>
+    // --- Demo chalet data ---
+    const CHALETS = [
+      { id:1, name:"Bennay private pool", location:"El Bennay, Aley", price:100,
+        guests:6, rating:4.8, amenities:["private pool"], 
+       description:[
+      "Master Bed",
+      "Two Single Beds",
+      "Two Sofa Beds",
+      "Living Area",
+       "Bathroom",
+      "Private Pool (suitable for Adults and Kids)",
+      "Kitchenette Indoor (refrigerator)",
+      "Kitchenette Outdoor (Barbeque + gas)",
+      "Electricity 24/24",
+      "Wifi",
+      "Private Car Parking",
+      "Hot Water",
+      "Speacker",
+      "AC",
+      "Living Area"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+      "No Pets",
+      "Loud Music is Allowed",
+       "Grab your own Food and Drinks",
+      "Grab your own Shampoo and Towels"
+     ],
+        images:["image/bennay.jpeg","image/bennay2.jpeg","image/bennay3.jpeg","image/bennay4.jpeg","image/bennay5.jpeg","image/bennay6.jpeg","image/bennay7.jpeg",
+        "image/bennay8.jpeg","image/bennay9.jpeg","image/bennay10.jpeg","image/bennay11.jpeg","image/bennay12.jpeg"] },
+      { id:2, name:"hrajel guesthouse", location:"Hrajel, Faraya", price:130,
+        guests:6, rating:4.8, amenities:["heated pool"],
+        description:[
+      "Master Bed",
+      "Two Single Beds",
+      "Two Sofa Beds",
+      "Living Area",
+       "Bathroom",
+      "Private Pool (suitable for Adults and Kids)",
+      "fully equipped Kitchen",
+      "Electricity 24/24",
+      "Wifi",
+      "Private Car Parking",
+      "Hot Water",
+      "Speacker",
+      "AC",
+      "Netflix"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+      "Music till 11 PM",
+     ],
+        images:["image/hrajel.jpeg","image/hrajel1.jpeg","image/hrajel2.jpeg","image/hrajel3.jpeg","image/hrajel4.jpeg","image/hrajel5.jpeg","image/hrajel6.jpeg","image/hrajel7.jpeg","image/hrajel8.jpeg",
+        "image/hrajel9.jpeg","image/hrajel10.jpeg","image/hrajel11.jpeg"] },
+      { id:3, name:"kfarmatta chalet", location:"kfarmatta, Aley", price:120,
+        guests:8, rating:4.5, amenities:["private pool"],
+        description:[
+      "one bedroom ( 3 beds )",
+      "Living room ( 5 sofa beds )",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "Pool is big 15 m long 8m width depth around 2m (suitable for Adults and Kids)",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+      "Loud Music not allowed",
+     ],
+        images:["image/jenfair.jpeg","image/jen1.jpeg","image/jen2.jpeg","image/jen3.jpeg","image/jen4.jpeg","image/jen5.jpeg","image/jen6.jpeg","image/jen7.jpeg","image/jen8.jpeg",
+        "image/jen9.jpeg","image/jen10.jpeg","image/jen11.jpeg"] },
+        { id:4, name:"Baisour escape", location:"Baisour, Aley", price:100,
+        guests:8, rating:4.5, amenities:["private pool"],
+        description:[
+      "2 master bedrooms",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/jasmine.jpeg","image/jas1.jpeg","image/jas2.jpeg","image/jas3.jpeg","image/jas4.jpeg","image/jas5.jpeg","image/jas6.jpeg","image/jas7.jpeg","image/jas8.jpeg",
+        "image/jas9.jpeg"] },
+        { id:5, name:"Blue cave", location:"Addousiyeh", price:130,
+        guests:2, rating:4.8, amenities:["private pool"],
+        description:[
+      "1 bedrooms",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "jaccuzi",
+      "waterful"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/add.jpeg","image/ad1.jpeg","image/ad2.jpeg","image/ad3.jpeg","image/ad4.jpeg","image/ad5.jpeg","image/ad6.jpeg","image/ad7.jpeg","image/ad8.jpeg",
+        "image/ad9.jpeg","image/ad10.jpeg"] },
+        { id:6, name:"Beirut rooftop", location:"Dekwene", price:80,
+        guests:2, rating:4.8, amenities:["private pool"],
+        description:[
+      "1 bedroom",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "waterful"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/z1.jpeg","image/z2.jpeg","image/z3.jpeg","image/z4.jpeg","image/z5.jpeg","image/z6.jpeg","image/z7.jpeg","image/z8.jpeg",
+        "image/z9.jpeg","image/z10.jpeg"] },
+        { id:7, name:"Bejjeh pool", location:"Bejjeh, jbeil", price:180,
+        guests:4, rating:4.8, amenities:["private pool"],
+        description:[
+      "1 bedroom",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 1 PM",
+      "Check Out: 11 AM",
+      "music not allowed"
+     ],
+        images:["image/bejjeh.jpeg","image/bej1.jpeg","image/bej2.jpeg","image/bej3.jpeg","image/bej4.jpeg","image/bej5.jpeg","image/bej6.jpeg","image/bej7.jpeg",
+        "image/bej8.jpeg","image/bej9.jpeg"] },
+         { id:8, name:"Mazboud private pool", location:"Mazboud, El chouf", price:120,
+        guests:7, rating:4.8, amenities:["private pool"],
+        description:[
+      "2 bedrooms",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/warde.jpeg","image/war1.jpeg","image/war2.jpeg","image/war3.jpeg","image/war4.jpeg","image/war5.jpeg","image/war6.jpeg","image/war7.jpeg",
+        "image/war8.jpeg","image/war9.jpeg","image/war10.jpeg","image/war11.jpeg","image/war12.jpeg","image/war13.jpeg"] },
+        { id:9, name:"Mazboud bungalow", location:"Mazboud, El chouf", price:120,
+        guests:10, rating:4.8, amenities:["private pool"],
+        description:[
+      "3 bedrooms",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/starry.jpeg","image/st1.jpeg","image/st2.jpeg","image/st3.jpeg","image/st4.jpeg","image/st5.jpeg","image/st6.jpeg","image/st7.jpeg",
+        "image/st8.jpeg","image/st9.jpeg","image/st10.jpeg"] },
+        { id:10, name:"Dmit bungalow", location:"Dmit, El chouf", price:75,
+        guests:8, rating:4.8, amenities:["private pool"],
+        description:[
+      "2 bedrooms",
+      "Living room",
+      "Kitchen is equipped",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/dmit.jpeg","image/dm1.jpeg","image/dm2.jpeg","image/dm3.jpeg","image/dm4.jpeg","image/dm5.jpeg"] },
+        { id:11, name:"Kfarmatta private pool", location:"Kfarmatta, Aley", price:160,
+        guests:6, rating:4.8, amenities:["private pool"],
+        description:[
+      "2 bedrooms",
+      "terrace",
+      "Outdoor Kitchinette",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 8 PM",
+      "Check Out: 6 PM",
+     ],
+        images:["image/mulino.jpeg","image/kf1.jpeg","image/kf2.jpeg","image/kf3.jpeg","image/kf4.jpeg","image/kf5.jpeg","image/kf6.jpeg","image/kf7.jpeg",
+        "image/kf8.jpeg","image/kf9.jpeg","image/kf10.jpeg"] },
+        { id:12, name:"Batroun cave", location:"smar jbeil, Batroun", price:70,
+        guests:2, rating:4.8, amenities:["private pool"],
+        description:[
+      "1 bedrooms",
+      "Living room",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/smar.jpeg","image/sm1.jpeg","image/sm2.jpeg","image/sm3.jpeg","image/sm4.jpeg","image/sm5.jpeg","image/sm6.jpeg","image/sm7.jpeg"] },
+        { id:13, name:"kfarmatta rooftop", location:"kfarmatta, Aley", price:110,
+        guests:4, rating:4.8, amenities:["private pool"],
+        description:[
+      "2 bedrooms",
+      "Living room",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+      "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 8 PM",
+      "Check Out: 6 PM",
+     ],
+        images:["image/mul.jpeg","image/k1.jpeg","image/k2.jpeg","image/k3.jpeg","image/k4.jpeg","image/k5.jpeg"] },
+        { id:14, name:"Debbieh dome", location:"Debbieh, chouf", price:70,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedrooms",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+      "jaccuzi",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 1 PM",
+     ],
+        images:["image/dome.jpeg","image/d1.jpeg","image/d2.jpeg","image/d3.jpeg","image/d4.jpeg","image/d5.jpeg","image/d6.jpeg","image/d7.jpeg"] },
+        { id:15, name:"baisour bungalow", location:"Baisour, Aley", price:210,
+        guests:6, rating:4.8, amenities:["heated pool"],
+        description:[
+      "1 Master Bedroom",
+      "4 Sofa Beds",
+      "Living Area",
+       "Bathroom",
+      "Private Pool (suitable for Adults and Kids)",
+      "fully equipped Kitchen",
+      "Electricity 24/24",
+      "Wifi",
+      "Private Car Parking",
+      "Hot Water",
+      "Speacker",
+      "AC",
+      "Netflix",
+      "basketball court"
+    ],
+       rules:[
+      "Check In: 12 PM",
+      "Check Out: 10:30 AM"
+     ],
+        images:["image/horizon.jpeg","image/hr1.jpeg","image/hr2.jpeg","image/hr3.jpeg","image/hr4.jpeg","image/hr5.jpeg","image/hr6.jpeg","image/hr7.jpeg","image/hr8.jpeg",
+        "image/hr9.jpeg","image/hr10.jpeg","image/hr11.jpeg","image/hr12.jpeg","image/hr13.jpeg","image/hr14.jpeg"] },
+         { id:16, name:"Batroun cabin", location:"Mrah zayat, Batroun", price:80,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/mrah.jpeg","image/sb1.jpeg","image/sb2.jpeg","image/sb3.jpeg","image/sb4.jpeg","image/sb5.jpeg","image/sb6.jpeg","image/sb7.jpeg"] },
+        { id:17, name:"Panoramic Bungalow", location:"Edde, Batroun", price:80,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+       "jaccuzi",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 1 PM",
+      "Check Out: 11 AM",
+     ],
+        images:["image/seacret.jpeg","image/sec1.jpg","image/sec2.jpg","image/sec3.jpg","image/sec4.jpg","image/sec5.jpg","image/sec6.jpg"] },
+        { id:18, name:"Heart chalet", location:"Dhour choueir", price:135,
+        guests:2, rating:4.8, amenities:["jaccuzi","pool"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+       "jaccuzi",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/tama.jpeg","image/hrt1.jpg","image/hrt2.jpg","image/hrt3.jpg","image/hrt4.jpg","image/hrt5.jpg","image/hrt6.jpg","image/hrt7.jpg","image/hrt8.jpg"] },
+        { id:19, name:"treehouse", location:"Majdlayah, Aley", price:80,
+        guests:4, rating:4.8, amenities:["chimney","pool"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+       "chimney",
+       "private pool",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/walnut.jpeg","image/wal1.jpg","image/wal2.jpg","image/wal3.jpg","image/wal4.jpg","image/wal5.jpg","image/wal6.jpg","image/wal7.jpg"] },
+        { id:20, name:"Tanourine lodge", location:"Tanourine", price:80,
+        guests:2, rating:4.8, amenities:["-"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/neo.jpeg","image/neo1.jpg","image/neo2.jpg","image/neo3.jpg","image/neo4.jpg","image/neo5.jpg"] },
+        { id:21, name:"Bejjeh villa", location:"Bejjeh, Jbeil", price:350,
+        guests:12, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedroom",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/cross.jpeg","image/bj1.jpg","image/bj2.jpg","image/bj3.jpg","image/bj4.jpg","image/bj5.jpg","image/bj6.jpg","image/bj7.jpg","image/bj8.jpg","image/bj9.jpg"] },
+        { id:22, name:"Baadaran villa", location:"Baadaran, Chouf", price:180,
+        guests:12, rating:4.8, amenities:["pool"],
+        description:[
+      "4 bedrooms",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+       "3 Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/baadaran.jpeg","image/baad1.jpg","image/baad2.jpg","image/baad3.jpg","image/baad4.jpg","image/baad5.jpg","image/baad6.jpg","image/baad7.jpg"] },
+        { id:23, name:"Chabtine guesthouse", location:"Chabtine, batroun", price:80,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedrooms",
+      "living room",
+      "private pool",
+      "equipped Kitchenette",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 11 AM",
+      "Check Out: 10 AM",
+     ],
+        images:["image/rameaux.jpeg","image/rm.jpg","image/rm1.jpg","image/rm2.jpg","image/rm3.jpg","image/rm4.jpg","image/rm5.jpg","image/rm6.jpg","image/rm7.jpg"] },
+         { id:24, name:"Mazboud bungalows", location:"Mazboud, chouf", price:80,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "living room",
+      "private pool",
+      "equipped Kitchenette",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/maz.jpeg","image/st1.jpg","image/st2.jpg","image/st3.jpg","image/st4.jpg","image/st5.jpg","image/st6.jpg","image/st7.jpg","image/st8.jpg"] },
+        { id:25, name:"Mastita chalet", location:"Mastita, jbeil", price:100,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "living room",
+      "private pool",
+      "Kitchenette",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/muse.jpeg","image/ms.jpg","image/ms1.jpg","image/ms2.jpg","image/ms3.jpg","image/ms4.jpg","image/ms5.jpg","image/ms6.jpg","image/ms7.jpg"] },
+        { id:26, name:"green chalet", location:"Rmeileh, chouf", price:100,
+        guests:8, rating:4.8, amenities:["pool","jaccuzi"],
+        description:[
+      "2 bedroom",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+      "jaccuzi",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+      "music not allowed during night"
+     ],
+        images:["image/green.jpeg","image/gr1.jpg","image/gr2.jpg","image/gr4.jpg","image/gr5.jpg","image/gr6.jpg","image/gr7.jpg"] },
+        { id:27, name:"Baisour lodge", location:"Baisour, aley", price:120,
+        guests:10, rating:4.8, amenities:["pool","chimney"],
+        description:[
+      "3 bedrooms",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/plm1.jpg","image/plm2.jpg","image/plm3.jpg","image/plm4.jpg","image/plm5.jpg","image/plm6.jpg"] },
+         { id:28, name:"Place de la paix", location:"Beit eddine, chouf", price:100,
+        guests:4, rating:4.8, amenities:["pool","bath tub"],
+        description:[
+      "1 bedroom",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+      "bath tub",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/ange.jpeg","image/bet1.jpg","image/bet2.jpg","image/bet3.jpg","image/bet4.jpg","image/bet5.jpg"] },
+         { id:30, name:"Hill chalet", location:"Ghaboun, aley", price:80,
+        guests:12, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/eagle.jpeg","image/sam1.jpg","image/sam2.jpg","image/sam3.jpg","image/sam4.jpg","image/sam5.jpg","image/sam6.jpg"] },
+         { id:29, name:"stone chalet", location:"Chabtine, batroun", price:100,
+        guests:4, rating:4.8, amenities:["pool","jaccuzi"],
+        description:[
+      "1 bedroom",
+      "living room",
+      "private pool",
+      "equipped Kitchen",
+      "Wifi available",
+      "jaccuzi",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/ath.jpeg","image/ath1.jpg","image/ath2.jpg","image/ath3.jpg","image/ath4.jpg","image/ath5.jpg","image/ath6.jpg"] },
+        { id:31, name:"wooden chalet", location:"kfarrouman, nabatieh", price:100,
+        guests:4, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "private mini pool",
+      "equipped Kitchen",
+      "Wifi available",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 3 PM",
+     ],
+        images:["image/ciel.jpeg","image/ciel1.jpg","image/ciel2.jpg","image/ciel3.jpg","image/ciel4.jpg","image/ciel5.jpg"] },
+        { id:32, name:"old house", location:"Douk, batroun", price:230,
+        guests:10, rating:4.5, amenities:["pool"],
+        description:[
+      "4 bedrooms",
+      "2 living room",
+      "private pool",
+      "2 equipped Kitchen",
+      "Wifi available",
+       "5 Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/douk.jpeg","image/dq.jpg","image/dq1.jpg","image/dq2.jpg","image/dq3.jpg","image/dq4.jpg","image/dq5.jpg","image/dq6.jpg","image/dq7.jpg","image/dq8.jpg"] },
+         { id:33, name:"faraya boutique hotel", location:"faraya", price:150,
+        guests:2, rating:4.8, amenities:["jaccuzi","chimney"],
+        description:[
+      "1 bedrooms",
+      "living room",
+      "equipped Kitchinette",
+      "Wifi available",
+       "Bathroom",
+       "jaccuzi",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/faraya.jpeg","image/rk.jpg","image/rk1.jpg","image/rk2.jpg","image/rk3.jpg","image/rk4.jpg","image/rk5.jpg","image/rk6.jpg"] },
+        { id:34, name:"kfardebian chalet", location:"kfardebian", price:150,
+        guests:6, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "5 min walking from mzaar ski slop",
+      "2 bedrooms",
+      "1 living room",
+      "equipped Kitchen",
+      "chimney",
+      "chauffage",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/kfr.jpg","image/kfr1.jpg","image/kfr2.jpg","image/kfr3.jpg","image/kfr4.jpg","image/kfr5.jpg","image/kfr6.jpg","image/kfr7.jpg","image/kfr8.jpg"] },
+        { id:35, name:"Faqra chalet", location:"Faqra", price:150,
+        guests:4, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "1 living room",
+      "equipped Kitchen",
+      "chimney",
+      "Wifi",
+       "Bathroom",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/fq.jpg","image/fq1.jpg","image/fq2.jpg","image/fq3.jpg","image/fq4.jpg","image/fq5.jpg","image/fq6.jpg","image/fq7.jpg","image/fq8.jpg","image/fq9.jpg","image/fq10.jpg"] },
+        { id:36, name:"Ehden bungalow", location:"Ehden", price:180,
+        guests:6, rating:4.8, amenities:["jaccuzi","snow","ski"],
+        description:[
+      "1 bedroom",
+      "1 living room",
+      "equipped Kitchen",
+      "chimney",
+      "breakfast",
+      "Wifi",
+       "Bathroom",
+       "jaccuzi",
+      "Bbq area available",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/eh.jpg","image/eh1.jpg","image/eh2.jpg","image/eh3.jpg","image/eh4.jpg","image/eh5.jpg","image/eh6.jpg"] },
+        { id:37, name:"Tabarja boutique hotel", location:"Tabarja", price:100,
+        guests:6, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchenette",
+      "chimney",
+       "Bathroom",
+       "jaccuzi",
+       "Wifi",
+       "breakfast",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/op.jpg","image/op1.jpg","image/op2.jpg","image/op3.jpg","image/op4.jpg","image/op5.jpg","image/op6.jpg"] },
+        { id:38, name:"Douma bungalows", location:"Douma ,batroun", price:80,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchenette",
+      "chimney",
+       "Bathroom",
+       "jaccuzi extra charge 30$",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/pn.jpg","image/pn1.jpg","image/pn2.jpg","image/pn3.jpg","image/pn4.jpg"] },
+        { id:39, name:"red house", location:"Kfardebian", price:150,
+        guests:5, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "equipped Kitchenette",
+      "chauffage",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/rd.jpg","image/rd1.jpg","image/rd2.jpg","image/rd3.jpg","image/rd4.jpg","image/rd5.jpg"] },
+        { id:40, name:"joie place", location:"Beit eddine", price:80,
+        guests:2, rating:4.8, amenities:["jaccuzi","pool"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchenette",
+      "jaccuzi",
+      "private pool",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/j.jpg","image/j1.jpg","image/j2.jpg","image/j3.jpg","image/j4.jpg","image/j5.jpg"] },
+        { id:41, name:"Cedars chalet", location:"Arez, bsharreh", price:100,
+        guests:4, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "equipped Kitchen",
+      "chauffage",
+      "chimney",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/c.jpg","image/c1.jpg","image/c2.jpg","image/c3.jpg","image/c4.jpg","image/c5.jpg","image/c6.jpg"] },
+        { id:42, name:"Hadshit Lodge", location:"Hadshit", price:150,
+        guests:4, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "equipped Kitchen",
+      "chauffage",
+      "chimney",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+      "music allowed till 11 PM"
+     ],
+        images:["image/h.jpg","image/h1.jpg","image/h2.jpg","image/h3.jpg","image/h4.jpg","image/h5.jpg","image/h6.jpg","image/h7.jpg","image/h8.jpg","image/h9.jpg"] },
+        { id:43, name:"Cedars chalet 2", location:"Arez, bsharreh", price:200,
+        guests:8, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "3 bedrooms",
+      "equipped Kitchen",
+      "chauffage",
+      "chimney",
+       "2 Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/s6.jpg","image/s1.jpg","image/s2.jpg","image/s3.jpg","image/s4.jpg","image/s5.jpg","image/s8.jpg","image/s9.jpg","image/s10.jpg","image/s11.jpg"] },
+        { id:44, name:"la vie gueshouse", location:"bouar", price:110,
+        guests:2, rating:4.8, amenities:["beach access"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "AC",
+      "living room"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/bo.jpeg","image/bo1.jpeg","image/bo2.jpeg","image/bo3.jpeg","image/bo4.jpeg","image/bo5.jpeg","image/bo6.jpeg","image/bo7.jpeg","image/br.jpg"] },
+        { id:45, name:"Sea guesthouse", location:"Kfarabida", price:125,
+        guests:2, rating:4.8, amenities:["beach access","jaccuzi"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/cy.jpeg","image/cy1.jpeg","image/cy2.jpeg","image/cy3.jpeg","image/cy4.jpeg","image/cy5.jpeg","image/cy6.jpeg","image/cy7.jpeg","image/cy8.jpeg"] },
+        { id:46, name:"Mradiyeh guesthouse", location:"Mradiyeh", price:150,
+        guests:8, rating:4.8, amenities:["pool"],
+        description:[
+      "3 bedrooms",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "private pool",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/mra.jpeg","image/mra1.jpeg","image/mra2.jpeg","image/mra3.jpeg","image/mra4.jpeg","image/mra5.jpeg","image/mra6.jpeg","image/mra7.jpeg","image/mra8.jpeg"] },
+        { id:47, name:"feitroun dome", location:"Feitroun", price:80,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/fy.jpeg","image/fy1.jpeg","image/fy2.jpeg","image/fy3.jpeg","image/fy4.jpeg","image/fy5.jpeg","image/fy6.jpeg"] },
+        { id:48, name:"Kfardebian container", location:"Kfardebian", price:150,
+        guests:6, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "1 bedroom",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/ct.jpeg","image/ct1.jpeg","image/ct2.jpeg","image/ct3.jpeg","image/ct4.jpeg","image/ct5.jpeg","image/ct6.jpeg"] },
+        { id:49, name:"Swing chalet", location:"Dhour choueir", price:150,
+        guests:4, rating:4.8, amenities:["jaccuzi","hot tub"],
+        description:[
+      "2 bedrooms",
+      "equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+       "hot tub",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/tm.jpeg","image/tm1.jpeg","image/tm2.jpeg","image/tm3.jpeg","image/tm4.jpeg","image/tm5.jpeg","image/tm6.jpeg","image/tm7.jpeg","image/tm8.jpeg","image/tm9.jpeg"] },
+        { id:50, name:"Iris chalet", location:"Mastita, jbeil", price:100,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Kitchen",
+       "Bathroom",
+       "Wifi",
+       "indoor and outdoor jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room",
+      "AC",
+      "breakfast 25$"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/ir.jpeg","image/ir1.jpeg","image/ir2.jpeg","image/ir3.jpeg","image/ir4.jpeg","image/ir5.jpeg"] },
+        { id:51, name:"Parea chalet", location:"Mastita, jbeil", price:250,
+        guests:2, rating:4.8, amenities:["pool","hot tub"],
+        description:[
+      "1 bedroom",
+      "Kitchen",
+       "Bathroom",
+       "Wifi",
+       "hot tub",
+       "private pool",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room",
+      "AC",
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/pa.jpeg","image/pa1.jpeg","image/pa2.jpeg","image/pa3.jpeg","image/pa4.jpeg","image/pa5.jpeg"] },
+        { id:52, name:"The bungalow", location:"Abbadiyeh", price:80,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "Kitchinette",
+       "Bathroom",
+       "private pool",
+       "jaccuzi outdoor",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/bg.jpeg","image/bg1.jpeg","image/bg2.jpeg","image/bg3.jpeg","image/bg4.jpeg","image/bg5.jpeg","image/bg6.jpeg"] },
+        { id:53, name:"White house", location:"Bisri", price:250,
+        guests:8, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Kitchen",
+       "Bathroom",
+       "private pool",
+       "Wifi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "outdoor sitting"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/bs.jpeg","image/bs1.jpeg","image/bs2.jpeg","image/bs3.jpeg","image/bs4.jpeg","image/bs5.jpeg"] },
+        { id:54, name:"Safi chalet", location:"Jabal safi", price:80,
+        guests:4, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Kitchinette",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "amazing view"
+    ],
+       rules:[
+      "Check In: 4 PM",
+      "Check Out: 2 PM",
+     ],
+        images:["image/sf.jpeg","image/sf1.jpeg","image/sf2.jpeg","image/sf3.jpeg","image/sf4.jpeg","image/sf5.jpeg","image/sf6.jpeg"] },
+         { id:55, name:"Chabtine chalet", location:"Chabtine, batroun", price:150,
+        guests:2, rating:4.8, amenities:["jaccuzi","pool"],
+        description:[
+      "1 bedroom",
+      "equiped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/et.jpeg","image/et1.jpeg","image/et2.jpeg","image/et3.jpeg","image/et4.jpeg","image/et5.jpeg","image/et6.jpeg","image/et7.jpeg","image/et8.jpeg"] },
+        { id:56, name:"Panorama chalet", location:"Chekka", price:250,
+        guests:2, rating:4.8, amenities:["hot tub","pool"],
+        description:[
+      "1 bedroom",
+      "equiped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "hot tub",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/pn.jpeg","image/pn1.jpeg","image/pn2.jpeg","image/pn3.jpeg","image/pn5.jpeg","image/pn6.jpeg","image/pn7.jpeg","image/pn8.jpeg"] },
+        { id:57, name:"Laklouk lodge", location:"Laklouk", price:250,
+        guests:5, rating:4.8, amenities:["jaccuzi","snow","ski"],
+        description:[
+      "2 bedrooms",
+      "2 mini Kitchenettes",
+       "2 Bathrooms",
+       "Wifi",
+       "jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water",
+      "living room",
+      "barbecue area"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/ca.jpeg","image/ca1.jpeg","image/ca2.jpeg","image/ca3.jpeg","image/ca5.jpeg","image/ca6.jpeg"] },
+        { id:58, name:"M village", location:"Mayrouba", price:120,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Kitchenette",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+      "Electricity 24/24",
+      "Private Car Parking",
+      "Hot Water"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/my.jpeg","image/my1.jpeg","image/my2.jpeg","image/my3.jpeg","image/my5.jpeg","image/my6.jpeg","image/my7.jpeg","image/my8.jpeg","image/my9.jpeg"] },
+        { id:59, name:"Mzaar chalet", location:"Kfardebian", price:160,
+        guests:5, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Car Parking",
+      "Hot Water",
+      "living room",
+      "barbecue area",
+      "chauffage",
+      "chimney"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+      "+20$ cleaning fees"
+     ],
+        images:["image/ch.jpeg","image/ch1.jpeg","image/ch2.jpeg","image/ch3.jpeg","image/ch5.jpeg","image/ch6.jpeg"] },
+        { id:60, name:"Faraya escape", location:"Faraya", price:130,
+        guests:6, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "Kitchen",
+       "2 Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Car Parking",
+      "Hot Water",
+      "living room",
+      "chimney",
+      "AC"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+      "Refundable 50$ security deposit "
+     ],
+        images:["image/sm.jpeg","image/smi1.jpeg","image/smi2.jpeg","image/smi3.jpeg","image/smi5.jpeg","image/smi6.jpeg"] },
+        { id:62, name:"Apple chalet", location:"Kfardebian", price:150,
+        guests:4, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "1 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "chimney",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 4 PM",
+      "Check Out: 1 PM",
+      "Pets not allowed"
+     ],
+        images:["image/ap.jpeg","image/ap1.jpeg","image/ap2.jpeg","image/ap3.jpeg","image/ap4.jpeg","image/ap5.jpeg","image/ap6.jpeg"] },
+        { id:63, name:"Zaarour bungalows", location:"Zaarour", price:200,
+        guests:8, rating:4.8, amenities:["snow","ski"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "chimney",
+      "chauffage",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+      "Valid ID needed at check-in",
+      "Music until 12h30 AM"
+     ],
+        images:["image/zr.jpeg","image/zr1.jpeg","image/zr2.jpeg","image/zr3.jpeg","image/zr4.jpeg","image/zr5.jpeg"] },
+        { id:64, name:"Sunset chalet", location:"Zaarour", price:250,
+        guests:10, rating:4.8, amenities:["jaccuzi","private pool","snow","ski"],
+        description:[
+      "3 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+       "jaccuzi",
+       "pool",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "chimney",
+      "chauffage",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM"
+     ],
+        images:["image/sn.jpeg","image/sn1.jpeg","image/sn2.jpeg","image/sn3.jpeg","image/sn4.jpeg"] },
+        { id:65, name:"Flake guesthouse", location:"Arez, Bcharreh", price:150,
+        guests:6, rating:4.8, amenities:["ski","snow"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "chimney",
+      "heating system",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 3 PM",
+      "Check Out: 12 PM",
+      "extra guest 20$",
+      "Pets not allowed"
+     ],
+        images:["image/fl.jpeg","image/fl1.jpeg","image/fl2.jpeg","image/fl3.jpeg","image/fl4.jpeg","image/fl5.jpeg","image/fl6.jpeg","image/fl7.jpeg","image/fl8.jpeg"] },
+        { id:66, name:"Orlina chalet", location:"Nabatieh", price:80,
+        guests:5, rating:4.8, amenities:["jaccuzi","pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "jaccuzi",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+      "Alcohol not allowed",
+      "Music not allowed",
+      "Pets not allowed"
+     ],
+        images:["image/wt.jpeg","image/wt1.jpeg","image/wt2.jpeg","image/wt3.jpeg","image/wt4.jpeg","image/wt5.jpeg"] },
+         { id:67, name:"Root guesthouse", location:"Jadra", price:270,
+        guests:10, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/jd.jpeg","image/jd1.jpeg","image/jd2.jpeg","image/jd3.jpeg","image/jd4.jpeg","image/jd5.jpeg","image/jd6.jpeg","image/jd7.jpeg","image/jd8.jpeg"] },
+        { id:68, name:"Root guesthouse", location:"Maamariyeh", price:180,
+        guests:8, rating:4.8, amenities:["pool"],
+        description:[
+      "2 master bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/sof.jpeg","image/sof1.jpeg","image/sof2.jpeg","image/sof3.jpeg","image/sof4.jpeg","image/sof5.jpeg","image/sof6.jpeg","image/sof7.jpeg","image/sof8.jpeg"] },
+        { id:69, name:"Gemini house 1", location:"Kfarmatta", price:100,
+        guests:6, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/gm.jpeg","image/gm1.jpeg","image/gm2.jpeg","image/gm3.jpeg","image/gm4.jpeg","image/gm5.jpeg","image/gm6.jpeg","image/gm7.jpeg","image/gm8.jpeg"] },
+        { id:70, name:"The cabin", location:"Ain dara", price:130,
+        guests:6, rating:4.8, amenities:["pool","snow"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/che.jpeg","image/che1.jpeg","image/che2.jpeg","image/che3.jpeg","image/che4.jpeg","image/che5.jpeg","image/che6.jpeg","image/che7.jpeg"] },
+        { id:71, name:"Ulivo chalet", location:"Aley", price:80,
+        guests:5, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/ul.jpeg","image/ul1.jpeg","image/ul2.jpeg","image/ul3.jpeg","image/ul4.jpeg","image/ul5.jpeg","image/ul6.jpeg"] },
+        { id:72, name:"Anan sky", location:"Anan", price:100,
+        guests:6, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 6 PM",
+     ],
+        images:["image/ms.jpeg","image/ms1.jpeg","image/ms2.jpeg","image/ms3.jpeg","image/ms4.jpeg","image/ms5.jpeg"] },
+        { id:73, name:"The cabin", location:"Maamariyeh", price:90,
+        guests:4, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/maa.jpeg","image/maa1.jpeg","image/maa2.jpeg","image/maa3.jpeg","image/maa4.jpeg","image/maa5.jpeg"] },
+        { id:74, name:"The mini home", location:"Kfarrouman, nabatieh", price:100,
+        guests:2, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 3 PM",
+     ],
+        images:["image/mi.jpeg","image/mi1.jpeg","image/mi2.jpeg","image/mi3.jpeg","image/mi4.jpeg","image/mi5.jpeg"] },
+        { id:75, name:"Bsous rooftop", location:"Bsous", price:120,
+        guests:4, rating:4.8, amenities:["pool"],
+        description:[
+      "2 bedrooms",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "smart tv",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 6 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/bso.jpeg","image/bso1.jpeg","image/bso2.jpeg","image/bso3.jpeg","image/bso4.jpeg","image/bso5.jpeg","image/bso6.jpeg"] },
+        { id:76, name:"Island cave", location:"Adousiyeh", price:100,
+        guests:2, rating:4.8, amenities:["pool","jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "jaccuzi",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 4 PM",
+     ],
+        images:["image/nr.jpeg","image/nr1.jpeg","image/nr2.jpeg","image/nr3.jpeg","image/nr4.jpeg","image/nr5.jpeg","image/nr6.jpeg"] },
+         { id:77, name:"Bsous chalet", location:"Bsous", price:350,
+        guests:12, rating:4.8, amenities:["pool"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 2 PM",
+      "Check Out: 12 PM",
+     ],
+        images:["image/ha.jpeg","image/ha1.jpeg","image/ha2.jpeg","image/ha3.jpeg","image/ha4.jpeg","image/ha5.jpeg"] },
+         { id:78, name:"Rock private pool", location:"Jrane, batroun", price:250,
+        guests:10, rating:4.8, amenities:["pool","day use"],
+        description:[
+      "Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "billiard table",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 9 AM",
+      "Check Out: 9 PM",
+      "Day use only (no sleep over)"
+     ],
+        images:["image/rk.jpeg","image/rk1.jpeg","image/rk2.jpeg","image/rk3.jpeg","image/rk4.jpeg","image/rk5.jpeg"] },
+         { id:79, name:"Cool private pool", location:"Bouar", price:140,
+        guests:20, rating:4.8, amenities:["pool","day use"],
+        description:[
+      "Kitchenette",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 11 AM",
+      "Check Out: 7 PM",
+      "Day use only (no sleep over)"
+     ],
+        images:["image/pc.jpeg","image/pc1.jpeg","image/pc2.jpeg","image/pc3.jpeg","image/pc4.jpeg","image/pc5.jpeg","image/pc6.jpeg","image/pc7.jpeg"] },
+         { id:80, name:"Aqua private pool", location:"Kfarmatta", price:150,
+        guests:10, rating:4.8, amenities:["pool","day use"],
+        description:[
+      "Equipped Kitchenette",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 8 AM",
+      "Check Out: 6 PM",
+      "Day use only (no sleep over)"
+     ],
+        images:["image/kd.jpeg","image/kd1.jpeg","image/kd2.jpeg","image/kd3.jpeg","image/kd4.jpeg","image/kd5.jpeg","image/kd6.jpeg"] },
+         { id:81, name:"Samqanieh private pool", location:"Samqanieh", price:150,
+        guests:12, rating:4.8, amenities:["pool","day use"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchenette",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 10 AM",
+      "Check Out: 6 PM",
+      "Day use only (no sleep over)"
+     ],
+        images:["image/sq.jpeg","image/sq1.jpeg","image/sq2.jpeg","image/sq3.jpeg","image/sq4.jpeg","image/sq5.jpeg","image/sq6.jpeg"] },
+         { id:82, name:"Kfarmatta garden", location:"Kfarmatta", price:125,
+        guests:8, rating:4.8, amenities:["pool","day use"],
+        description:[
+      "Equipped Kitchenette",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 10 AM",
+      "Check Out: 7 PM",
+      "Day use only (no sleep over)"
+     ],
+        images:["image/ml.jpeg","image/ml1.jpeg","image/ml2.jpeg","image/ml3.jpeg","image/ml4.jpeg","image/ml5.jpeg"] },
+         { id:83, name:"Jouar guesthouse", location:"Jouar el hoz", price:100,
+        guests:2, rating:4.8, amenities:["jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "jaccuzi",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/vk.jpeg","image/vk1.jpeg","image/vk2.jpeg","image/vk3.jpeg","image/vk4.jpeg"] },
+         { id:84, name:"The wood villa", location:"Lehfed", price:150,
+        guests:6, rating:4.8, amenities:["pool","jaccuzi"],
+        description:[
+      "1 bedroom",
+      "Equipped Kitchen",
+       "Bathroom",
+       "Wifi",
+      "Electricity 24/24",
+      "Hot Water",
+      "living room",
+      "jaccuzi",
+      "pool",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 7 PM",
+      "Check Out: 5 PM",
+     ],
+        images:["image/el.jpeg","image/el1.jpeg","image/el2.jpeg","image/el3.jpeg","image/el4.jpeg","image/el5.jpeg"] },
+         { id:85, name:"Mina yacht", location:"Tripoli", price:350,
+        guests:12, rating:4.8, amenities:["yachting"],
+        description:[
+      "Private yacht",
+      "Kitchenette",
+      "Bathroom",
+      "Trips to rabits island",
+      "Barbecue"
+    ],
+       rules:[
+      "Check In: 10 AM",
+      "Check Out: sunset",
+     ],
+        images:["image/yk.jpeg","image/yk1.jpeg","image/yk2.jpeg","image/yk4.jpeg","image/yk5.jpeg","image/yk6.jpeg"] }
+    ];
+    const params = new URLSearchParams(window.location.search);
+    const id = +params.get("id");
+    const chalet = CHALETS.find(c => c.id === id);
+
+    // Function to render chalet details
+    function renderChaletDetails(chalet) {
+      if (!chalet) {
+        document.getElementById('chalet-details').innerHTML = `
+          <div class="chalet-info" style="text-align: center; padding: 4rem 2rem;">
+            <h2 style="color: var(--primary-dark); margin-bottom: 1rem;">Chalet Not Found</h2>
+            <p style="margin-bottom: 2rem;">The chalet you're looking for doesn't exist or has been removed.</p>
+            <a href="index.html" class="back-link" style="font-size: 1.1rem;">
+              <i class="fas fa-arrow-left"></i> Back to All Chalets
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      // Update breadcrumb
+      document.getElementById('breadcrumb-chalet').textContent = chalet.name;
+
+      // Generate amenities tags
+      const amenitiesTags = chalet.amenities.map(amenity => {
+        const icon = getAmenityIcon(amenity);
+        return `<div class="amenity-tag">${icon} ${amenity}</div>`;
+      }).join('');
+
+      // Generate features list
+      const featuresList = chalet.description.map(item => `<li>${item}</li>`).join('');
+      const rulesList = chalet.rules.map(item => `<li>${item}</li>`).join('');
+
+      // Generate image gallery HTML
+      let galleryHTML = `
+        <div class="gallery-section">
+          <div class="main-image-container">
+            <img src="${chalet.images[0]}" alt="${chalet.name}" class="main-image" id="main-image">
+            <div class="image-counter" id="image-counter">1 / ${chalet.images.length}</div>
+            <div class="gallery-nav">
+              <button class="nav-btn prev" id="prev-btn">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="nav-btn next" id="next-btn">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="thumbnail-container" id="thumbnail-container">
+      `;
+
+      // Add thumbnails
+      chalet.images.forEach((img, index) => {
+        galleryHTML += `
+          <img src="${img}" alt="${chalet.name} - Image ${index + 1}" 
+               class="thumbnail ${index === 0 ? 'active' : ''}" 
+               data-index="${index}">
+        `;
+      });
+
+      galleryHTML += `</div></div>`;
+
+      // Generate main content
+      const mainHTML = `
+        ${galleryHTML}
+        
+        <div class="details-container">
+          <div class="chalet-info">
+            <div class="chalet-header">
+              <h1 class="chalet-title">${chalet.name}</h1>
+              <div class="chalet-location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>${chalet.location}</span>
+              </div>
+              <div class="rating">
+                <i class="fas fa-star"></i>
+                <span>${chalet.rating} • ${chalet.guests} guests</span>
+              </div>
+            </div>
+
+            <div class="amenities-tags">
+              ${amenitiesTags}
+            </div>
+
+            <h3 class="section-title">Description & Facilities</h3>
+            <ul class="description-list">
+              ${featuresList}
+            </ul>
+
+            <h3 class="section-title">House Rules</h3>
+            <ul class="rules-list">
+              ${rulesList}
+            </ul>
+          </div>
+
+          <div class="booking-card">
+            <div class="price-container">
+              <div class="price">$${chalet.price}</div>
+              <div class="per-night">per night</div>
+            </div>
+            
+            <div class="features-grid">
+              <div class="feature">
+                <i class="fas fa-user-friends"></i>
+                <span>${chalet.guests} Guests</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-star"></i>
+                <span>${chalet.rating} Rating</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-swimming-pool"></i>
+                <span>${chalet.amenities}</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-wifi"></i>
+                <span>Free WiFi</span>
+              </div>
+            </div>
+
+            <a href="https://wa.me/96181833120?text=Hi! I'm interested in booking ${chalet.name} for dates..." 
+               class="whatsapp-btn" target="_blank">
+              <i class="fab fa-whatsapp"></i> Book on WhatsApp
+            </a>
+
+            <button class="book-btn" id="book-now-btn" onclick="document.location='https://wa.me/96181833120?text=Hi! I'm interested in booking ${chalet.name} for dates...'">
+              <i class="fas fa-calendar-check"></i> Book Now
+            </button>
+
+            <p style="text-align: center; color: var(--gray); font-size: 0.9rem;">
+              <i class="fas fa-shield-alt"></i> Secure booking
+            </p>
+
+            <a href="index.html" class="back-link">
+              <i class="fas fa-arrow-left"></i> Back to all chalets
+            </a>
+          </div>
+        </div>
+      `;
+
+      // Insert into page
+      document.getElementById('chalet-details').innerHTML = mainHTML;
+
+      // Initialize image slider
+      initImageSlider(chalet);
+      
+      // Add event listener to book button
+      document.getElementById('book-now-btn').addEventListener('click', function() {
+        const phoneNumber = "96181833120";
+        const message = `Hi! I'm interested in booking ${chalet.name} for my stay. Can you provide more details?`;
+        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(whatsappUrl, '_blank');
+      });
+    }
+
+    // Initialize image slider functionality
+    function initImageSlider(chalet) {
+      const mainImage = document.getElementById('main-image');
+      const thumbnails = document.querySelectorAll('.thumbnail');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const imageCounter = document.getElementById('image-counter');
+      
+      let currentImageIndex = 0;
+
+      // Function to update main image
+      function updateMainImage(index) {
+        currentImageIndex = index;
+        mainImage.src = chalet.images[index];
+        imageCounter.textContent = `${index + 1} / ${chalet.images.length}`;
+        
+        // Update active thumbnail
+        thumbnails.forEach((thumb, i) => {
+          thumb.classList.toggle('active', i === index);
+        });
+        
+        // Add fade effect
+        mainImage.style.opacity = 0;
+        setTimeout(() => {
+          mainImage.style.opacity = 1;
+        }, 10);
+      }
+
+      // Thumbnail click events
+      thumbnails.forEach(thumb => {
+        thumb.addEventListener('click', function() {
+          const index = parseInt(this.getAttribute('data-index'));
+          updateMainImage(index);
+        });
+      });
+
+      // Previous button
+      prevBtn.addEventListener('click', function() {
+        let newIndex = currentImageIndex - 1;
+        if (newIndex < 0) newIndex = chalet.images.length - 1;
+        updateMainImage(newIndex);
+      });
+
+      // Next button
+      nextBtn.addEventListener('click', function() {
+        let newIndex = currentImageIndex + 1;
+        if (newIndex >= chalet.images.length) newIndex = 0;
+        updateMainImage(newIndex);
+      });
+
+      // Keyboard navigation
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+          prevBtn.click();
+        } else if (e.key === 'ArrowRight') {
+          nextBtn.click();
+        }
+      });
+    }
+
+    // Helper function to get appropriate icon for amenities
+    function getAmenityIcon(amenity) {
+      const icons = {
+        'private pool': 'fas fa-swimming-pool',
+        'ski': 'fas fa-skiing',
+        'heated pool': 'fas fa-hot-tub',
+        'jaccuzi': 'fas fa-hot-tub',
+        'chimney': 'fas fa-fire',
+        'snow': 'fas fa-snowflake',
+        'pool': 'fas fa-swimming-pool',
+        'bath tub': 'fas fa-bath',
+        'hot tub': 'fas fa-hot-tub',
+        'beach access': 'fas fa-umbrella-beach'
+      };
+      
+      for (const [key, icon] of Object.entries(icons)) {
+        if (amenity.toLowerCase().includes(key)) {
+          return `<i class="${icon}"></i>`;
+        }
+      }
+      
+      return `<i class="fas fa-check"></i>`;
+    }
+
+    // Render the chalet details
+    setTimeout(() => {
+      renderChaletDetails(chalet);
+    }, 800); // Simulate loading delay for better UX
+  </script>
+</body>
+</html>
